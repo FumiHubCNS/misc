@@ -10,7 +10,8 @@ requires-python = ">=3.13"
 dependencies = []
 
 [project.scripts]
-write-publication = "misc.write_publication_html:write_with_hugo_format"
+write-pucdblication = "misc.write_publication_html:write_with_hugo_format"
+copy-doxygens = "misc.doxygen_collection:copy_doxygens"
 
 [build-system]
 requires = ["hatchling"]
