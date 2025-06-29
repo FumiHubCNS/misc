@@ -9,6 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
+# mac
+.DS_Store
+
 # input and ouput
 input
 output

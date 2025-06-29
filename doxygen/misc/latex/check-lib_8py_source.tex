@@ -1,0 +1,47 @@
+\doxysection{check-\/lib.py}
+\hypertarget{check-lib_8py_source}{}\label{check-lib_8py_source}\index{/Users/fendo/Work/Program/uv-\/python/misc/src/misc/check-\/lib.py@{/Users/fendo/Work/Program/uv-\/python/misc/src/misc/check-\/lib.py}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00001}00001\ \textcolor{keyword}{import}\ ast}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00002}00002\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00003}00003\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00004}00004\ \textcolor{keyword}{from}\ stdlib\_list\ \textcolor{keyword}{import}\ stdlib\_list}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00006}00006\ \textcolor{keyword}{def\ }find\_imports(source\_dir:\ Path)\ -\/>\ set[str]:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00007}00007\ \ \ \ \ imported\_modules\ =\ set()}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00009}00009\ \ \ \ \ \textcolor{keywordflow}{for}\ py\_file\ \textcolor{keywordflow}{in}\ source\_dir.rglob(\textcolor{stringliteral}{"{}*.py"{}}):}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ py\_file.open(\textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ ast.parse(f.read(),\ filename=str(py\_file))}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ stmt\ \textcolor{keywordflow}{in}\ ast.walk(node):}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(stmt,\ ast.Import):}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ alias\ \textcolor{keywordflow}{in}\ stmt.names:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ imported\_modules.add(alias.name.split(\textcolor{stringliteral}{"{}."{}})[0])}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ isinstance(stmt,\ ast.ImportFrom):}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ stmt.module:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ imported\_modules.add(stmt.module.split(\textcolor{stringliteral}{"{}."{}})[0])}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ SyntaxError:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}⚠️\ Syntax\ error\ in\ \{py\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{return}\ imported\_modules}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00024}00024\ \textcolor{keyword}{def\ }main():}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00025}00025\ \ \ \ \ parser\ =\ argparse.ArgumentParser(description=\textcolor{stringliteral}{"{}Used\ third-\/party\ libraries\ finder"{}})}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00026}00026\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}path"{}},\ type=str,\ help=\textcolor{stringliteral}{"{}Path\ to\ Python\ source\ directory\ (e.g.,\ ./src)"{}})}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00027}00027\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/python-\/version"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}3.11"{}},\ help=\textcolor{stringliteral}{"{}Python\ version\ (e.g.,\ 3.11)"{}})}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00028}00028\ \ \ \ \ args\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00030}00030\ \ \ \ \ source\_dir\ =\ Path(args.path).resolve()}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00031}00031\ \ \ \ \ std\_libs\ =\ set(stdlib\_list(args.python\_version))}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00032}00032\ \ \ \ \ used\_imports\ =\ find\_imports(source\_dir)}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00034}00034\ \ \ \ \ third\_party\ =\ sorted([lib\ \textcolor{keywordflow}{for}\ lib\ \textcolor{keywordflow}{in}\ used\_imports\ \textcolor{keywordflow}{if}\ lib\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ std\_libs])}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00036}00036\ \ \ \ \ print(\textcolor{stringliteral}{"{}✅\ 外部ライブラリ（標準ライブラリを除く）:"{}})}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{for}\ name\ \textcolor{keywordflow}{in}\ third\_party:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}-\/"{}},\ name)}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00040}00040\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{check-lib_8py_source_l00041}00041\ \ \ \ \ main()}
+
+\end{DoxyCode}
