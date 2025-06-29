@@ -8,6 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+.vim 
+.vscode
 
 # mac
 .DS_Store
