@@ -1,0 +1,17 @@
+[project]
+name = "misc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "FumiHubCNS", email = "fendo@cns.s.u-tokyo.ac.jp" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+write-publication = "misc.write_publication_html:write_with_hugo_format"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/fendo/Work/Artemis/h445-2/user/fendo/batch/wosiwbm'
+let g:netrw_dirhist_2='/np1a/phanes/work/fendo/output/gainsearchinput'
+let g:netrw_dirhist_3='/home/fendo/Work/Artemis/h445-2/user/fendo/magnet-src'
+let g:netrw_dirhist_4='/home/fendo/Work/Artemis/h445-2/user/fendo'
+let g:netrw_dirhist_5='/home/kohda'
+let g:netrw_dirhist_6='/home/fendo/Work/Artemis/h445-2/user/fendo/cat-src'
+let g:netrw_dirhist_7='/home/fendo/Work/Artemis/h445-2/user/fendo/macro'
+let g:netrw_dirhist_8='/HTMLpub/fendo/wiki/exp/catm'
+let g:netrw_dirhist_9='/HTMLpub/fendo/wiki/exp'
