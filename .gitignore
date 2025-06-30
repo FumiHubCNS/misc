@@ -10,6 +10,7 @@ wheels/
 .venv
 .vim 
 .vscode
+.*
 
 # mac
 .DS_Store
